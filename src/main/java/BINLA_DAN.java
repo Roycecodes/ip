@@ -8,13 +8,14 @@ public class BINLA_DAN {
                 + "$$ |  $$ |  $$ |  $$ |\\$$$ |$$ |      $$ |  $$ |      $$ |  $$ |$$ |  $$ |$$ |\\$$$ | \n"
                 + "$$$$$$$  |$$$$$$\\ $$ | \\$$ |$$$$$$$$\\ $$ |  $$ |      $$$$$$$  |$$ |  $$ |$$ | \\$$ | \n"
                 + "\\_______/ \\______|\\__|  \\__|\\________|\\__|  \\__|      \\_______/ \\__|  \\__|\\__|  \\__| \n";
+        // this is my chatbot logo
 
         System.out.println(logo);
         System.out.println("_________________________________________________________________________________________");
         System.out.println("Hello! I'm Binla dan");
-        System.out.println("What can I do for you?");
+        System.out.println("What can I do for you?");// welcome message
         System.out.println("_________________________________________________________________________________________");
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("Bye. Hope to see you again soon!"); // exit message
         System.out.println("_________________________________________________________________________________________");
 
     }
