@@ -6,23 +6,7 @@ public class BINLA_DAN {
         System.out.println("Bye. Hope to see you again soon my brother"); // exit message
         System.out.println("_________________________________________________________________________________________");
     }
-    static void echoState(){
-        Scanner scanner = new Scanner(System.in);
-        String arg = "";
-        while(!arg.equals("bye")) {
-            arg = scanner.nextLine();
-            echo(arg);
-        }
-        byeText();
 
-    }
-
-    static void echo(String s){
-        System.out.println("_________________________________________________________________________________________");
-        System.out.println(s); // echo
-        System.out.println("_________________________________________________________________________________________");
-
-    }
 
 
     public static void main(String[] args) {
@@ -41,10 +25,52 @@ public class BINLA_DAN {
         System.out.println("_________________________________________________________________________________________");
         System.out.println("Hello brother! I'm Binla dan");
         System.out.println("What can I do for you?");// welcome message
-        echoState();
+        EchoState.callEchoState();
 
 
     }
 
+
+}
+class EchoState{
+
+    static void callEchoState(){
+        Scanner scanner = new Scanner(System.in);
+        String arg = "";
+        while(!arg.equals("bye")) {
+            arg = scanner.nextLine();
+            echo(arg);
+        }
+        BINLA_DAN.byeText();
+
+    }
+
+    static void echo(String s){
+        System.out.println("_________________________________________________________________________________________");
+        System.out.println(s); // echo
+        System.out.println("_________________________________________________________________________________________");
+
+    }
+
+}
+class ListState{
+
+    static void callEchoState(){
+        Scanner scanner = new Scanner(System.in);
+        String arg = "";
+        while(!arg.equals("bye")) {
+            arg = scanner.nextLine();
+            echo(arg);
+        }
+        BINLA_DAN.byeText();
+
+    }
+
+    static void echo(String s){
+        System.out.println("_________________________________________________________________________________________");
+        System.out.println(s); // echo
+        System.out.println("_________________________________________________________________________________________");
+
+    }
 
 }
