@@ -25,50 +25,50 @@ public class BINLA_DAN {
         System.out.println("_________________________________________________________________________________________");
         System.out.println("Hello brother! I'm Binla dan");
         System.out.println("What can I do for you?");// welcome message
-        EchoState.callEchoState();
+        ListState.callListState();
 
 
     }
 
-
-}
-class EchoState{
-
-    static void callEchoState(){
-        Scanner scanner = new Scanner(System.in);
-        String arg = "";
-        while(!arg.equals("bye")) {
-            arg = scanner.nextLine();
-            echo(arg);
-        }
-        BINLA_DAN.byeText();
-
-    }
-
-    static void echo(String s){
-        System.out.println("_________________________________________________________________________________________");
-        System.out.println(s); // echo
-        System.out.println("_________________________________________________________________________________________");
-
-    }
 
 }
 class ListState{
+    static private String[] myList = new String[1024];
+    static private int listIndex = 0;
 
-    static void callEchoState(){
+
+
+    static void callListState(){
         Scanner scanner = new Scanner(System.in);
         String arg = "";
-        while(!arg.equals("bye")) {
-            arg = scanner.nextLine();
-            echo(arg);
+        while(!arg.equals("bye")) {     //bye breaks the while loop
+            arg = scanner.nextLine();   //scanner scans console for strings
+            if(arg.equals("list")){     //if list is read then call displayList which will display list
+                displayList();
+            }
+            else addToList(arg);
         }
         BINLA_DAN.byeText();
 
     }
 
-    static void echo(String s){
+    static void addToList(String s){
+        myList[listIndex] = s;
+        listIndex +=1;
+
         System.out.println("_________________________________________________________________________________________");
-        System.out.println(s); // echo
+        System.out.print("Added new target: ");
+        System.out.println(s); // echos what is added to list
+        System.out.println("_________________________________________________________________________________________");
+
+    }
+    static void displayList(){
+        System.out.println("_________________________________________________________________________________________");
+        System.out.println("Current targets: ");
+        for (int i=0; i< listIndex; i++){
+            System.out.print(i+1 + ": "); // index of items
+            System.out.println(myList[i]); // print items in list
+        }
         System.out.println("_________________________________________________________________________________________");
 
     }
