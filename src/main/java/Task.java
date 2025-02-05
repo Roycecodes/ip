@@ -11,6 +11,11 @@ public class Task {
     public String toString() {
         return this.description;
     }
+    public void setDone(boolean done){}
+    public boolean isDone(){return false;}
+    public void setStartTime(String startTime){}
+    public void setEndTime(String endTime){}
+    public void setDeadline(String deadline){}
 
 
 }
