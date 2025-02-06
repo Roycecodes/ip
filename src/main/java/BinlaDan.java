@@ -72,20 +72,21 @@ class ListState{
             String taskNumber = receivedText.substring(indexOfUndone+7).trim();
             markAsUndone(Integer.parseInt(taskNumber));
         }
-        else if(receivedText.contains("/by")){//create a deadlineTask
+        else if(receivedText.indexOf("deadline") == 0){//create a deadlineTask
             String[] parsedDeadline = Parser.parseDeadline(receivedText);
             addDeadline(parsedDeadline[0],parsedDeadline[1]);
             listUpdateText();
             BinlaDan.printLine();
         }
-        else if(receivedText.contains("/from")){//create a EventTask
+        else if(receivedText.indexOf("event") == 0){//create a EventTask
             String[] parsedEvent = Parser.parseEvent(receivedText);
             addEvent(parsedEvent[0],parsedEvent[1],parsedEvent[2]);
             listUpdateText();
             BinlaDan.printLine();
         }
-        else{
-            addTodo(receivedText); //create Todo task
+        else if(receivedText.indexOf("todo") == 0){
+
+            addTodo(Parser.parseTodo(receivedText)); //create Todo task
             listUpdateText();
             BinlaDan.printLine();
         }
