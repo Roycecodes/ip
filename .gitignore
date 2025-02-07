@@ -12,8 +12,10 @@ src/main/resources/docs/
 .DS_Store
 *.iml
 bin/
-
+*SI_TA_LIN*
 *.class
+#ignore vim backupfiles
+*~
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
