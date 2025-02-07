@@ -4,7 +4,7 @@
 public class BinlaDan {
     static final String LINE_DIVIDER = "_________________________________________________________________________________________";
     
-    static void byeText(){
+    static void printByeText(){
         printLineDivider();
         System.out.println("Bye. Hope to see you again soon my brother"); // exit message
         printLineDivider();

@@ -11,7 +11,7 @@ public class ListState{
         while(!(scannedText = scanner.nextLine()).equals("bye")) {     //bye breaks the while loop
                 decipherCommand(scannedText);
         }
-        BinlaDan.byeText();
+        BinlaDan.printByeText();
     }
     static public void decipherCommand(String receivedText){//method to determine what kind of task to call
 
