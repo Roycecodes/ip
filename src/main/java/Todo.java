@@ -6,6 +6,7 @@ public class Todo extends Task{ // subclass of Task
 
     }
 
+    @Override
     public boolean getIsDone(){// done value getter
         return isDone;
     }

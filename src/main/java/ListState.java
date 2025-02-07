@@ -1,21 +1,17 @@
 import java.util.Scanner;
 public class ListState{
+    static final int LENGTH_OF_DONE = 5;
+    static final int LENGTH_OF_UNDONE = 7;
     static private Task[] myList = new Task[100];
     static private int listIndex = 0;
 
-
-
     static void callListState(){
         Scanner scanner = new Scanner(System.in);
-        String scannedText = "";
-        while(!scannedText.equals("bye")) {     //bye breaks the while loop
-            scannedText = scanner.nextLine();   //scanner scans console for strings
-            if( !scannedText.equals("bye")) {
+        String scannedText;
+        while(!(scannedText = scanner.nextLine()).equals("bye")) {     //bye breaks the while loop
                 decipherCommand(scannedText);
-            }
         }
         BinlaDan.byeText();
-
     }
     static public void decipherCommand(String receivedText){//method to determine what kind of task to call
 
@@ -24,12 +20,12 @@ public class ListState{
         }
         else if(receivedText.indexOf("done") == 0){
             int indexOfDone = receivedText.indexOf("done");
-            String taskNumber = receivedText.substring(indexOfDone+5).trim();
+            String taskNumber = receivedText.substring(indexOfDone+LENGTH_OF_DONE).trim();
             markAsDone(Integer.parseInt(taskNumber));
         }
         else if(receivedText.indexOf("undone") == 0){
             int indexOfUndone = receivedText.indexOf("undone");
-            String taskNumber = receivedText.substring(indexOfUndone+7).trim();
+            String taskNumber = receivedText.substring(indexOfUndone+LENGTH_OF_UNDONE).trim();
             markAsUndone(Integer.parseInt(taskNumber));
         }
         else if(receivedText.indexOf("deadline") == 0){//create a deadlineTask
@@ -56,16 +52,6 @@ public class ListState{
         System.out.println("your glorious list has grown to " + listIndex);
     }
 
-    static void addTask(String description){
-        Task task = new Task(description); //adds description as normal task
-        myList[listIndex] = task; //adds item to list
-        listIndex +=1;          //increases index
-
-        BinlaDan.printLineDivider();
-        System.out.print("Added new target: ");
-        System.out.println(description); // echos what is added to list
-
-    }
     static void addTodo(String description){
         Todo todoTask = new Todo(description); //adds description as normal task
         myList[listIndex] = todoTask; //adds item to list
@@ -101,11 +87,11 @@ public class ListState{
 
     }
     static void displayList(){
-        char taskType = 'T';
+        char taskType;
         BinlaDan.printLineDivider();
         System.out.println("Current targets: ");
         for (int i=0; i< listIndex; i++){
-            if(myList[i] instanceof Deadline){
+            if(myList[i] instanceof Deadline){ //checks if task is a Deadline class
                 taskType = 'D';
             }
             else if(myList[i] instanceof EventTask){
@@ -124,7 +110,7 @@ public class ListState{
 
     static void markAsDone(int index){
         Task task =  myList[index-1];
-        if (index-1 >= listIndex || index-1<0){ //error of out of bounds
+        if (index <= 0 || index > listIndex){ //error of out of bounds
             BinlaDan.printLineDivider();
             System.out.println("You donkey! What have you done? This isn't one of our targets ");
             BinlaDan.printLineDivider();
@@ -136,7 +122,7 @@ public class ListState{
             BinlaDan.printLineDivider();
             return;
         }
-        task.setDone(true);
+        task.setDone(true); // call setDone from Task class
         BinlaDan.printLineDivider();
         System.out.println("Well Done Brother! The Resistance thanks you");
         displayList();
@@ -144,7 +130,7 @@ public class ListState{
     }
     static void markAsUndone(int index){
         Task task =  myList[index-1];
-        if (index-1 >= listIndex || index-1<0){ //error of out of bounds
+        if (index <= 0 || index > listIndex){ //error of out of bounds
             BinlaDan.printLineDivider();
             System.out.println("You donkey! Are you crazy? This isn't one of our targets ");
             BinlaDan.printLineDivider();
@@ -156,7 +142,7 @@ public class ListState{
             BinlaDan.printLineDivider();
             return;
         }
-        task.setDone(false);
+        task.setDone(false); // call setDone from Task class
         BinlaDan.printLineDivider();
         System.out.println("The resistance will not allow you to make anymore mistakes. Complete your mission now!");
         displayList();
