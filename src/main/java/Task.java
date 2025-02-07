@@ -12,7 +12,7 @@ public class Task {
         return this.description;
     }
     public void setDone(boolean done){}
-    public boolean isDone(){return false;}
+    public boolean getIsDone(){return false;}
     public void setStartTime(String startTime){}
     public void setEndTime(String endTime){}
     public void setDeadline(String deadline){}

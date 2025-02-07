@@ -11,7 +11,6 @@ public class ListState{
         while(!scannedText.equals("bye")) {     //bye breaks the while loop
             scannedText = scanner.nextLine();   //scanner scans console for strings
             if( !scannedText.equals("bye")) {
-
                 decipherCommand(scannedText);
             }
         }
@@ -36,24 +35,24 @@ public class ListState{
         else if(receivedText.indexOf("deadline") == 0){//create a deadlineTask
             String[] parsedDeadline = Parser.parseDeadline(receivedText);
             addDeadline(parsedDeadline[0],parsedDeadline[1]);
-            listUpdateText();
-            BinlaDan.printLine();
+            printUpdateListText();
+            BinlaDan.printLineDivider();
         }
         else if(receivedText.indexOf("event") == 0){//create a EventTask
             String[] parsedEvent = Parser.parseEvent(receivedText);
             addEvent(parsedEvent[0],parsedEvent[1],parsedEvent[2]);
-            listUpdateText();
-            BinlaDan.printLine();
+            printUpdateListText();
+            BinlaDan.printLineDivider();
         }
         else if(receivedText.indexOf("todo") == 0){
 
             addTodo(Parser.parseTodo(receivedText)); //create Todo task
-            listUpdateText();
-            BinlaDan.printLine();
+            printUpdateListText();
+            BinlaDan.printLineDivider();
         }
 
     }
-    static void listUpdateText(){
+    static void printUpdateListText(){
         System.out.println("your glorious list has grown to " + listIndex);
     }
 
@@ -62,7 +61,7 @@ public class ListState{
         myList[listIndex] = task; //adds item to list
         listIndex +=1;          //increases index
 
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
         System.out.print("Added new target: ");
         System.out.println(description); // echos what is added to list
 
@@ -72,7 +71,7 @@ public class ListState{
         myList[listIndex] = todoTask; //adds item to list
         listIndex +=1;          //increases index
 
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
         System.out.print("Added new target: ");
         System.out.println(description); // echos what is added to list
 
@@ -82,7 +81,7 @@ public class ListState{
         myList[listIndex] = deadlineTask; //adds item to list
         listIndex +=1;          //increases index
 
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
         System.out.print("Added new Mission: ");
         System.out.println(description); // echos what is added to list
         System.out.print("Mission deadline: ");
@@ -94,7 +93,7 @@ public class ListState{
         myList[listIndex] = eventTask; //adds item to list
         listIndex +=1;          //increases index
 
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
         System.out.print("Added new Campaign: ");
         System.out.println(description); // echos what is added to list
         System.out.print("Campaign duration: ");
@@ -103,7 +102,7 @@ public class ListState{
     }
     static void displayList(){
         char taskType = 'T';
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
         System.out.println("Current targets: ");
         for (int i=0; i< listIndex; i++){
             if(myList[i] instanceof Deadline){
@@ -119,26 +118,26 @@ public class ListState{
             System.out.println(myList[i]); // print items in list
 
         }
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
 
     }
 
     static void markAsDone(int index){
         Task task =  myList[index-1];
         if (index-1 >= listIndex || index-1<0){ //error of out of bounds
-            BinlaDan.printLine();
+            BinlaDan.printLineDivider();
             System.out.println("You donkey! What have you done? This isn't one of our targets ");
-            BinlaDan.printLine();
+            BinlaDan.printLineDivider();
             return;
         }
-        if (task.isDone()){ //error of calling done twice
-            BinlaDan.printLine();
+        if (task.getIsDone()){ //error of calling done twice
+            BinlaDan.printLineDivider();
             System.out.println("You Idiot! This has mission has already been completed! What do you mean you just completed it?");
-            BinlaDan.printLine();
+            BinlaDan.printLineDivider();
             return;
         }
         task.setDone(true);
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
         System.out.println("Well Done Brother! The Resistance thanks you");
         displayList();
 
@@ -146,19 +145,19 @@ public class ListState{
     static void markAsUndone(int index){
         Task task =  myList[index-1];
         if (index-1 >= listIndex || index-1<0){ //error of out of bounds
-            BinlaDan.printLine();
+            BinlaDan.printLineDivider();
             System.out.println("You donkey! Are you crazy? This isn't one of our targets ");
-            BinlaDan.printLine();
+            BinlaDan.printLineDivider();
             return;
         }
-        if (!task.isDone()){ //error of calling undone twice
-            BinlaDan.printLine();
+        if (!task.getIsDone()){ //error of calling undone twice
+            BinlaDan.printLineDivider();
             System.out.println("You must have smoked too much Shisha! This has mission has not been completed!");
-            BinlaDan.printLine();
+            BinlaDan.printLineDivider();
             return;
         }
         task.setDone(false);
-        BinlaDan.printLine();
+        BinlaDan.printLineDivider();
         System.out.println("The resistance will not allow you to make anymore mistakes. Complete your mission now!");
         displayList();
     }
