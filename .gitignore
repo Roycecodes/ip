@@ -14,6 +14,9 @@ src/main/resources/docs/
 bin/
 *SI_TA_LIN*
 *.class
+classOut*
+compileRun.bat
+sources.txt
 #ignore vim backupfiles
 *~
 

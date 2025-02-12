@@ -1,15 +1,16 @@
+package BinlaDan.ui;
 
-
+import BinlaDan.command.*;
 
 public class BinlaDan {
     static final String LINE_DIVIDER = "_________________________________________________________________________________________";
     
-    static void printByeText(){
+    public static void printByeText(){
         printLineDivider();
         System.out.println("Bye. Hope to see you again soon my brother"); // exit message
         printLineDivider();
     }
-    static void printLineDivider(){
+    public static void printLineDivider(){
         System.out.println(LINE_DIVIDER);
     }
     public static void main(String[] args) {

@@ -1,3 +1,14 @@
+package BinlaDan.command;
+
+import BinlaDan.exception.AlreadyDoneException;
+import BinlaDan.exception.EmptyStringException;
+import BinlaDan.exception.MissingDateException;
+import BinlaDan.tasks.Deadline;
+import BinlaDan.tasks.EventTask;
+import BinlaDan.tasks.Task;
+import BinlaDan.tasks.Todo;
+import BinlaDan.ui.BinlaDan;
+
 import java.util.EmptyStackException;
 import java.util.Scanner;
 
@@ -7,7 +18,7 @@ public class ListState {
     static private Task[] myList = new Task[100];
     static private int listIndex = 0;
 
-    static void callListState() {
+    public static void callListState() {
         Scanner scanner = new Scanner(System.in);
         String scannedText;
         while (!(scannedText = scanner.nextLine()).equals("bye")) {     //bye breaks the while loop

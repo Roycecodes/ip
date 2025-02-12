@@ -1,3 +1,7 @@
+package BinlaDan.tasks;
+
+import BinlaDan.exception.AlreadyDoneException;
+
 public class Todo extends Task { // subclass of Task
     protected boolean isDone; // to save done value
 

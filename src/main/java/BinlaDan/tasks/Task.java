@@ -1,3 +1,7 @@
+package BinlaDan.tasks;
+
+import BinlaDan.exception.AlreadyDoneException;
+
 public abstract class Task {
     protected String description;
 
