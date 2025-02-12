@@ -1,3 +1,4 @@
+import java.util.EmptyStackException;
 import java.util.Scanner;
 
 public class ListState {
@@ -103,77 +104,78 @@ public class ListState {
             System.out.print("Campaign duration: ");
             System.out.println(startTime + " to " + endTime);
             printUpdateListText();
-        }
-        catch (MissingDateException e){
+        } catch (MissingDateException e) {
             System.out.println("You imbecile your event details are missing! use \"event {task} /from {start time} /to {end time}\"  to specify.");
             System.out.println("try again, don't mess up.");
 
-        }
-        catch (EmptyStringException e){
+        } catch (EmptyStringException e) {
             System.out.println("Brother please... indicate your task");
         }
 
     }
 
     static void displayList() {
-        char taskType;
-        BinlaDan.printLineDivider();
-        System.out.println("Current targets: ");
-        for (int i = 0; i < listIndex; i++) {
-            if (myList[i] instanceof Deadline) { //checks if task is a Deadline class
-                taskType = 'D';
-            } else if (myList[i] instanceof EventTask) {
-                taskType = 'E';
-            } else taskType = 'T';
+        try {
+            char taskType;
+            if (listIndex == 0) {
+                throw new EmptyStackException();
+            }
+            BinlaDan.printLineDivider();
+            System.out.println("Current targets: ");
+            for (int i = 0; i < listIndex; i++) {
+                if (myList[i] instanceof Deadline) { //checks if task is a Deadline class
+                    taskType = 'D';
+                } else if (myList[i] instanceof EventTask) {
+                    taskType = 'E';
+                } else taskType = 'T';
 
-            System.out.print(i + 1 + ": ["); // index of items
-            System.out.print(taskType + "] "); //indicate type of task
-            System.out.println(myList[i]); // print items in list
+                System.out.print(i + 1 + ": ["); // index of items
+                System.out.print(taskType + "] "); //indicate type of task
+                System.out.println(myList[i]); // print items in list
 
+            }
+            BinlaDan.printLineDivider();
         }
-        BinlaDan.printLineDivider();
+        catch(EmptyStackException e){
+            System.out.println("No Targets today!");
+            BinlaDan.printLineDivider();
+        }
 
     }
 
     static void markAsDone(int index) {
-        Task task = myList[index - 1];
-        if (index <= 0 || index > listIndex) { //error of out of bounds
+        try {
+            Task task = myList[index - 1];
+            task.setDone(true); // call setDone from Task class
+            BinlaDan.printLineDivider();
+            System.out.println("Well Done Brother! The Resistance thanks you");
+            displayList();
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
             BinlaDan.printLineDivider();
             System.out.println("You donkey! What have you done? This isn't one of our targets ");
             BinlaDan.printLineDivider();
-            return;
-        }
-        if (task.getIsDone()) { //error of calling done twice
+        } catch (AlreadyDoneException e) {
             BinlaDan.printLineDivider();
             System.out.println("You Idiot! This has mission has already been completed! What do you mean you just completed it?");
             BinlaDan.printLineDivider();
-            return;
         }
-        task.setDone(true); // call setDone from Task class
-        BinlaDan.printLineDivider();
-        System.out.println("Well Done Brother! The Resistance thanks you");
-        displayList();
-
     }
 
     static void markAsUndone(int index) {
-        Task task = myList[index - 1];
-        if (index <= 0 || index > listIndex) { //error of out of bounds
+        try {
+            Task task = myList[index - 1];
+            task.setDone(false); // call setDone from Task class
+            BinlaDan.printLineDivider();
+            System.out.println("The resistance will not allow you to make anymore mistakes. Complete your mission now!");
+            displayList();
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
             BinlaDan.printLineDivider();
             System.out.println("You donkey! Are you crazy? This isn't one of our targets ");
             BinlaDan.printLineDivider();
-            return;
-        }
-        if (!task.getIsDone()) { //error of calling undone twice
+        } catch (AlreadyDoneException e) {
             BinlaDan.printLineDivider();
             System.out.println("You must have smoked too much Shisha! This has mission has not been completed!");
             BinlaDan.printLineDivider();
-            return;
         }
-        task.setDone(false); // call setDone from Task class
-        BinlaDan.printLineDivider();
-        System.out.println("The resistance will not allow you to make anymore mistakes. Complete your mission now!");
-        displayList();
     }
-
 }
