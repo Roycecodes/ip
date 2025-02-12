@@ -1,3 +1,5 @@
+package BinlaDan.tasks;
+
 public class Deadline extends Todo{ // subclass of Todo
     private String deadline; // to save date
 
