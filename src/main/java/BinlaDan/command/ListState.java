@@ -9,13 +9,14 @@ import BinlaDan.tasks.Task;
 import BinlaDan.tasks.Todo;
 import BinlaDan.ui.BinlaDan;
 
+import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Scanner;
 
 public class ListState {
     static final int LENGTH_OF_DONE = 5;
     static final int LENGTH_OF_UNDONE = 7;
-    static private Task[] myList = new Task[100];
+    static final private ArrayList<Task> myList = new ArrayList<>();
     static private int listIndex = 0;
 
     public static void callListState() {
@@ -60,7 +61,7 @@ public class ListState {
         try {
             String description = Parser.parseTodo(receivedText);
             Todo todoTask = new Todo(description); //adds description as normal task
-            myList[listIndex] = todoTask; //adds item to list
+            myList.add(todoTask); // add new todotask to list array
             listIndex += 1;          //increases index
 
             BinlaDan.printLineDivider();
@@ -79,7 +80,7 @@ public class ListState {
             String description = parsedDeadline[0];
             String deadline = parsedDeadline[1];
             Deadline deadlineTask = new Deadline(description, deadline); //adds description and deadline as a deadline task
-            myList[listIndex] = deadlineTask; //adds item to list
+            myList.add(deadlineTask); //add deadline task to array list
             listIndex += 1;          //increases index
 
             BinlaDan.printLineDivider();
@@ -106,7 +107,7 @@ public class ListState {
 
 
             EventTask eventTask = new EventTask(description, startTime, endTime); //adds description as normal task
-            myList[listIndex] = eventTask; //adds item to list
+            myList.add(eventTask); // add event task to array list
             listIndex += 1;          //increases index
 
             BinlaDan.printLineDivider();
@@ -134,15 +135,15 @@ public class ListState {
             BinlaDan.printLineDivider();
             System.out.println("Current targets: ");
             for (int i = 0; i < listIndex; i++) {
-                if (myList[i] instanceof Deadline) { //checks if task is a Deadline class
+                if (myList.get(i) instanceof Deadline) { //checks if task is a Deadline class
                     taskType = 'D';
-                } else if (myList[i] instanceof EventTask) {
+                } else if (myList.get(i) instanceof EventTask) {
                     taskType = 'E';
                 } else taskType = 'T';
 
                 System.out.print(i + 1 + ": ["); // index of items
                 System.out.print(taskType + "] "); //indicate type of task
-                System.out.println(myList[i]); // print items in list
+                System.out.println(myList.get(i)); // print items in list
 
             }
             BinlaDan.printLineDivider();
@@ -156,7 +157,7 @@ public class ListState {
 
     static void markAsDone(int index) {
         try {
-            Task task = myList[index - 1];
+            Task task = myList.get(index-1);
             task.setDone(true); // call setDone from Task class
             BinlaDan.printLineDivider();
             System.out.println("Well Done Brother! The Resistance thanks you");
@@ -174,7 +175,7 @@ public class ListState {
 
     static void markAsUndone(int index) {
         try {
-            Task task = myList[index - 1];
+            Task task = myList.get(index-1);
             task.setDone(false); // call setDone from Task class
             BinlaDan.printLineDivider();
             System.out.println("The resistance will not allow you to make anymore mistakes. Complete your mission now!");
