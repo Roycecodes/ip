@@ -17,6 +17,6 @@ public class Deadline extends Todo{ // subclass of Todo
     @Override public String toString() {
         String addOutput = "(by: " + this.deadline +")";
 
-        return super.toString() + " " + addOutput;
+        return "[D] " +super.toString().substring(4) + " " + addOutput;
     }
 }

@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class ListState {
     static final int LENGTH_OF_DONE = 5;
     static final int LENGTH_OF_UNDONE = 7;
+    static final int LENGTH_OF_DELETE = 7;
     static final private ArrayList<Task> myList = new ArrayList<>();
     static private int listIndex = 0;
 
@@ -33,12 +34,12 @@ public class ListState {
         if (receivedText.equals("list")) {// show list
             ListState.displayList();
         } else if (receivedText.indexOf("done") == 0) {
-            int indexOfDone = receivedText.indexOf("done");
-            String taskNumber = receivedText.substring(indexOfDone + LENGTH_OF_DONE).trim();
+
+            String taskNumber = receivedText.substring(LENGTH_OF_DONE).trim();
             markAsDone(Integer.parseInt(taskNumber));
         } else if (receivedText.indexOf("undone") == 0) {
-            int indexOfUndone = receivedText.indexOf("undone");
-            String taskNumber = receivedText.substring(indexOfUndone + LENGTH_OF_UNDONE).trim();
+
+            String taskNumber = receivedText.substring(LENGTH_OF_UNDONE).trim();
             markAsUndone(Integer.parseInt(taskNumber));
         } else if (receivedText.indexOf("deadline") == 0) {//create a deadlineTask
             addDeadline(receivedText);
@@ -49,9 +50,13 @@ public class ListState {
         } else if (receivedText.indexOf("todo") == 0) {
             addTodo(receivedText); //create Todo task
             BinlaDan.printLineDivider();
+        } else if (receivedText.indexOf("delete") == 0) {
+            String taskNumber = receivedText.substring(LENGTH_OF_DELETE).trim();
+            deleteTask(Integer.parseInt(taskNumber)); //create Todo task
+            BinlaDan.printLineDivider();
         }
-
     }
+
 
     static void printUpdateListText() {
         System.out.println("your glorious list has grown to " + listIndex);
@@ -128,27 +133,20 @@ public class ListState {
 
     static void displayList() {
         try {
-            char taskType;
+
             if (listIndex == 0) {
                 throw new EmptyStackException();
             }
             BinlaDan.printLineDivider();
             System.out.println("Current targets: ");
             for (int i = 0; i < listIndex; i++) {
-                if (myList.get(i) instanceof Deadline) { //checks if task is a Deadline class
-                    taskType = 'D';
-                } else if (myList.get(i) instanceof EventTask) {
-                    taskType = 'E';
-                } else taskType = 'T';
 
-                System.out.print(i + 1 + ": ["); // index of items
-                System.out.print(taskType + "] "); //indicate type of task
+                System.out.print(i + 1 + ": "); // index of items
                 System.out.println(myList.get(i)); // print items in list
 
             }
             BinlaDan.printLineDivider();
-        }
-        catch(EmptyStackException e){
+        } catch (EmptyStackException | IndexOutOfBoundsException e) {
             System.out.println("No Targets today!");
             BinlaDan.printLineDivider();
         }
@@ -157,7 +155,7 @@ public class ListState {
 
     static void markAsDone(int index) {
         try {
-            Task task = myList.get(index-1);
+            Task task = myList.get(index - 1);
             task.setDone(true); // call setDone from Task class
             BinlaDan.printLineDivider();
             System.out.println("Well Done Brother! The Resistance thanks you");
@@ -175,7 +173,7 @@ public class ListState {
 
     static void markAsUndone(int index) {
         try {
-            Task task = myList.get(index-1);
+            Task task = myList.get(index - 1);
             task.setDone(false); // call setDone from Task class
             BinlaDan.printLineDivider();
             System.out.println("The resistance will not allow you to make anymore mistakes. Complete your mission now!");
@@ -190,4 +188,19 @@ public class ListState {
             BinlaDan.printLineDivider();
         }
     }
+
+    static void deleteTask(int index) {
+        try {
+            Task task = myList.get(index - 1); //save task for printing later
+            myList.remove(task); // try to remove from list
+            System.out.print("Target removed: ");
+            System.out.println(task);
+            listIndex -=1;
+
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Are you stupid? This Task doesn't exist!");
+        }
+
+    }
+
 }
