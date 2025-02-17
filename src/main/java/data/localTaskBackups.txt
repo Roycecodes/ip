@@ -1,4 +1,0 @@
-Current saved Targets: 
-T|false|this n that
-D|false|that|tmr
-E|false|this|then|then

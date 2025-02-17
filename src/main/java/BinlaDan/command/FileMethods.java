@@ -60,13 +60,20 @@ public class FileMethods {
 
         try {
             File file = new File(FILE_PATH);
-            if (file.createNewFile()) {
+            if (!file.exists()) {
+                File parentDir = file.getParentFile();
+                if (parentDir != null && !parentDir.exists()) {
+                    parentDir.mkdirs(); // Creates all necessary parent directories
+                }
+                file.createNewFile();
+
                 System.out.println("Target list saved to: " + file.getName());
+
             } else {
                 System.out.println("File already exists.");
             }
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred." +e.getMessage());
 
         }
 

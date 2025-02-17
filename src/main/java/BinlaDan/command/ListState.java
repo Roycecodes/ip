@@ -35,7 +35,7 @@ public class ListState {
             String returnedText = "Current saved Targets: \n";
             for (int i = 0; i < listIndex; i++) {
 
-                returnedText += Parser.getTaskAsSavedFormat(myList[i]); //call parser function that formats tasks
+                returnedText += Parser.getTaskAsSavedFormat(myList.get(i)); //call parser function that formats tasks
                 returnedText += ("\n"); //newline
             }
             return returnedText;
