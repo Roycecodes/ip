@@ -25,7 +25,7 @@ public class EventTask extends Todo{ // subclass of Todo
     public String toString() {
         String addOutput = "(From: " + this.startTime + " to " + this.endTime+")";
 
-        return super.toString() + " " + addOutput;
+        return "[E] "+ super.toString().substring(4) + " " + addOutput;
     }
 }
 

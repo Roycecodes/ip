@@ -25,7 +25,7 @@ public class Todo extends Task { // subclass of Task
 
     public String toString() {
         String addOutput = this.isDone ? "[/]" : "[X]"; //give check if done cross is not
-        return addOutput + " " + super.toString();
+        return "[T] "+ addOutput + " " + super.toString();
     }
 
 }
