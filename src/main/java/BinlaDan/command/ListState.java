@@ -27,6 +27,24 @@ public class ListState {
         BinlaDan.printByeText();
     }
 
+
+    public static String generateTaskListString() {
+        try {
+            String returnedText = "Current saved Targets: \n";
+            for (int i = 0; i < listIndex; i++) {
+
+                returnedText += Parser.getTaskAsSavedFormat(myList[i]); //call parser function that formats tasks
+                returnedText += ("\n"); //newline
+            }
+            return returnedText;
+        } catch (NullPointerException e) {
+            System.out.println("error");
+
+        }
+        return "";
+    }
+
+
     static public void decipherCommand(String receivedText) {//method to determine what kind of task to call
 
         if (receivedText.equals("list")) {// show list
@@ -48,6 +66,9 @@ public class ListState {
         } else if (receivedText.indexOf("todo") == 0) {
             addTodo(receivedText); //create Todo task
             BinlaDan.printLineDivider();
+        } else if (receivedText.indexOf("save") == 0) {
+            FileMethods.writeTaskFile();
+            BinlaDan.printLineDivider();
         }
 
     }
@@ -56,7 +77,7 @@ public class ListState {
         System.out.println("your glorious list has grown to " + listIndex);
     }
 
-    static void addTodo(String receivedText) {
+    static int addTodo(String receivedText) {
         try {
             String description = Parser.parseTodo(receivedText);
             Todo todoTask = new Todo(description); //adds description as normal task
@@ -67,13 +88,18 @@ public class ListState {
             System.out.print("Added new target: ");
             System.out.println(description); // echos what is added to list
             printUpdateListText();
+            return listIndex; //return index of item
         } catch (IndexOutOfBoundsException | EmptyStringException e) {
             System.out.println("Todo..... Todo what? Tell me now!");
+
         }
+        return -1;// indicate error
+
+
 
     }
 
-    static void addDeadline(String receivedText) {
+    static int addDeadline(String receivedText) {
         try {
             String[] parsedDeadline = Parser.parseDeadline(receivedText);
             String description = parsedDeadline[0];
@@ -88,16 +114,18 @@ public class ListState {
             System.out.print("Mission deadline: ");
             System.out.println(deadline);
             printUpdateListText();
+            return listIndex; //return index of item
         } catch (EmptyStringException e) {
             System.out.println("What is your Task? Tell me Now! Don't you dare leave it empty again.");
         } catch (MissingDateException e) {
             System.out.println("what is the deadline? use \"deadline {task} /by {deadline}\"  to specify.");
             System.out.println("try again, don't mess up.");
         }
+        return -1;
 
     }
 
-    static void addEvent(String receivedText) {
+    static int addEvent(String receivedText) {
         try {
             String[] parsedEvent = Parser.parseEvent(receivedText);
             String description = parsedEvent[0];
@@ -115,6 +143,7 @@ public class ListState {
             System.out.print("Campaign duration: ");
             System.out.println(startTime + " to " + endTime);
             printUpdateListText();
+            return listIndex; //return index of item
         } catch (MissingDateException e) {
             System.out.println("You imbecile your event details are missing! use \"event {task} /from {start time} /to {end time}\"  to specify.");
             System.out.println("try again, don't mess up.");
@@ -122,6 +151,7 @@ public class ListState {
         } catch (EmptyStringException e) {
             System.out.println("Brother please... indicate your task");
         }
+        return -1;
 
     }
 
@@ -146,8 +176,7 @@ public class ListState {
 
             }
             BinlaDan.printLineDivider();
-        }
-        catch(EmptyStackException e){
+        } catch (EmptyStackException e) {
             System.out.println("No Targets today!");
             BinlaDan.printLineDivider();
         }

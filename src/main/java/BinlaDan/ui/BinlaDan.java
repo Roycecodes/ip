@@ -26,7 +26,7 @@ public class BinlaDan {
                 \\_______/ \\______|\\__|  \\__|\\________|\\__|  \\__|      \\_______/ \\__|  \\__|\\__|  \\__|\s
                 """;
         // this is my chatbot logo
-
+        FileMethods.initialiseTaskList();
         System.out.println(logo);
         printLineDivider();
         System.out.println("Hello brother! I'm Binla dan");
