@@ -2,6 +2,10 @@ package BinlaDan.command;
 
 import BinlaDan.exception.EmptyStringException;
 import BinlaDan.exception.MissingDateException;
+import BinlaDan.tasks.Deadline;
+import BinlaDan.tasks.EventTask;
+import BinlaDan.tasks.Task;
+import BinlaDan.tasks.Todo;
 
 public class Parser {
     static final int LENGTH_OF_DEADLINE = 9;
@@ -13,9 +17,9 @@ public class Parser {
 
 
     static public String[] parseDeadline(String receivedText) throws EmptyStringException, MissingDateException {
-        String[] returnedArray= new String[2];
+        String[] returnedArray = new String[2];
         receivedText = receivedText.trim();
-        if (receivedText.split(" ").length==1){ //if only command word throw empty string statement
+        if (receivedText.split(" ").length == 1) { //if only command word throw empty string statement
             throw new EmptyStringException();
         }
         int indexOfBy = receivedText.indexOf("/by");
@@ -43,7 +47,7 @@ public class Parser {
 
     }
 
-    static public String[] parseEvent(String receivedText) throws MissingDateException, EmptyStringException{
+    static public String[] parseEvent(String receivedText) throws MissingDateException, EmptyStringException {
 
         receivedText = receivedText.trim();
         String[] words = receivedText.split("\\s+");
@@ -67,16 +71,52 @@ public class Parser {
         returnedArray[2] = receivedText.substring(indexOfTo + LENGTH_OF_TO).trim();
         //saving everything after /to as endTime
 
-        if (returnedArray[0].isEmpty()){
+        if (returnedArray[0].isEmpty()) {
 
             throw new EmptyStringException();
         }
-        if (returnedArray[1].isEmpty()|| returnedArray[2].isEmpty()){
+        if (returnedArray[1].isEmpty() || returnedArray[2].isEmpty()) {
 
             throw new MissingDateException();
         }
         return returnedArray;
 
+    }
+
+    static char checkTaskType(Task task) {
+        char taskType = 'T';
+        if (task instanceof EventTask) {
+            taskType = 'E';
+        }
+        else if (task instanceof Deadline) {
+            taskType = 'D';
+        }
+        else if (task instanceof Todo) {
+            taskType = 'T';
+        }
+
+        return taskType;
+    }
+
+    public static String getTaskAsSavedFormat(Task task) {
+        String returnedText = "";
+        char taskType = checkTaskType(task);
+        returnedText += taskType;
+        returnedText += "|" + task.getIsDone();
+        returnedText += "|" + task.getDescription(); //add tasks to String
+        switch (taskType) {
+        case 'D':
+            Deadline deadlineTask = (Deadline) task; // class cast to Deadline to extract Deadline
+
+            returnedText += "|" + deadlineTask.getDeadline();// extract Deadline
+            break;
+        case 'E':
+            EventTask eventTask = (EventTask) task; // class cast to Event to extract startTime
+            returnedText += "|" + eventTask.getStartTime();// extract startTime
+            returnedText += "|" + eventTask.getEndTime();// extract startTime
+            break;
+        }
+        return returnedText;
     }
 
     static public String parseTodo(String receivedText) throws EmptyStringException {
