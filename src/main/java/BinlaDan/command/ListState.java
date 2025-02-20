@@ -76,6 +76,10 @@ public class ListState {
             FileMethods.writeTaskFile();
             BinlaDan.printLineDivider();
         }
+        else {
+            System.out.println("I DO NOT UNDERSTAND "+ receivedText);
+            System.out.println("use commands list,done/undone,todo,event,deadline,save,delete");
+        }
 
     }
 
