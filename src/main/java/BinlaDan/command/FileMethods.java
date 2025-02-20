@@ -13,43 +13,45 @@ import java.util.regex.Pattern;
 public class FileMethods {
     final private static String FILE_PATH = "data/localTaskBackups.txt";
 
-    static public void initialiseTaskList(){
-        try{
+    static public void initialiseTaskList() {
+        try {
             File file = new File(FILE_PATH); // create a File for the given file path
             Scanner fileString = new Scanner(file); // create a Scanner using the File as the source
-            fileString.nextLine(); //ignore first line
+            if (fileString.hasNext()) {
+                fileString.nextLine();
+            }//ignore first line
             while (fileString.hasNext()) {
                 addTaskFromSaved(fileString);
             }
             System.out.println("Synchronised Saved Targets");
         } catch (FileNotFoundException e) {
             checkAndCreateTaskFile();
-            
+
         }
 
     }
 
     private static void addTaskFromSaved(Scanner s) {
-        String[] arrayOfArguments =  s.nextLine().split(Pattern.quote("|"));
+        String[] arrayOfArguments = s.nextLine().split(Pattern.quote("|"));
         int index;
-        switch (arrayOfArguments[0]){
+        switch (arrayOfArguments[0]) {
         case "D":
             index = ListState.addDeadline("deadline " + arrayOfArguments[2] + " /by " + arrayOfArguments[3]);
-            if(arrayOfArguments[1].equals("true")){
-                ListState.markAsDone(index+1);
+            if (arrayOfArguments[1].equals("true")) {
+                ListState.markAsDone(index + 1);
             }
             break;
         case "E":
             index = ListState.addEvent("event " + arrayOfArguments[2] + " /from " + arrayOfArguments[3] + " /to " + arrayOfArguments[4]);
-            if(arrayOfArguments[1].equals("true")){
-                ListState.markAsDone(index+1);
+            if (arrayOfArguments[1].equals("true")) {
+                ListState.markAsDone(index + 1);
             }
             break;
         case "T":
             index = ListState.addTodo("todo " + arrayOfArguments[2]);
 //            System.out.println(arrayOfArguments[2]);
-            if(arrayOfArguments[1].equals("true")){
-                ListState.markAsDone(index+1);
+            if (arrayOfArguments[1].equals("true")) {
+                ListState.markAsDone(index + 1);
             }
             break;
 
@@ -73,7 +75,7 @@ public class FileMethods {
                 System.out.println("File already exists.");
             }
         } catch (IOException e) {
-            System.out.println("An error occurred." +e.getMessage());
+            System.out.println("An error occurred." + e.getMessage());
 
         }
 
