@@ -1,11 +1,12 @@
 package BinlaDan.command;
 
-import BinlaDan.exception.EmptyStringException;
-import BinlaDan.exception.MissingDateException;
+import BinlaDan.exceptions.EmptyStringException;
+import BinlaDan.exceptions.MissingDateException;
 import BinlaDan.tasks.Deadline;
 import BinlaDan.tasks.EventTask;
 import BinlaDan.tasks.Task;
 import BinlaDan.tasks.Todo;
+import BinlaDan.ui.Ui;
 
 public class Parser {
     static final int LENGTH_OF_DEADLINE = 9;
@@ -15,6 +16,52 @@ public class Parser {
     static final int LENGTH_OF_TO = 4;
     static final int LENGTH_OF_FROM = 6;
 
+    public static void decipherCommand(String receivedText) {//method to determine what kind of task to call
+
+        String command = receivedText.strip().split(" ")[0];
+        switch (command) {
+        case Command.ADD_TODO_COMMAND:
+            Command.executeAddTodo(receivedText); //create Todo task
+            Ui.printLineDivider();
+            break;
+
+        case Command.ADD_DEADLINE_COMMAND:
+            Command.executeAddDeadline(receivedText); //create deadlineTask
+            Ui.printLineDivider();
+            break;
+
+        case Command.ADD_EVENT_COMMAND:
+            Command.executeAddEvent(receivedText); //create EventTask
+            Ui.printLineDivider();
+            break;
+
+        case Command.LIST_COMMAND:
+            Command.executeDisplayList();
+            break;
+
+        case Command.SAVE_COMMAND:
+            Command.executeSave();
+            Ui.printLineDivider();
+            break;
+        case Command.DELETE_COMMAND:
+            Command.executeDeleteTask(receivedText);
+            Ui.printLineDivider();
+            break;
+
+        case Command.DONE_COMMAND:
+            Command.executeMarkAsDone(receivedText);
+            break;
+        case Command.UNDONE_COMMAND:
+            Command.executeMarkAsUndone(receivedText);
+            break;
+        default:
+            System.out.println("I DO NOT UNDERSTAND " + receivedText);
+            System.out.println("use commands list,done/undone,todo,event,deadline,save,delete");
+
+        }
+
+
+    }
 
     static public String[] parseDeadline(String receivedText) throws EmptyStringException, MissingDateException {
         String[] returnedArray = new String[2];
@@ -87,15 +134,18 @@ public class Parser {
         char taskType = 'T';
         if (task instanceof EventTask) {
             taskType = 'E';
-        }
-        else if (task instanceof Deadline) {
+        } else if (task instanceof Deadline) {
             taskType = 'D';
-        }
-        else if (task instanceof Todo) {
+        } else if (task instanceof Todo) {
             taskType = 'T';
         }
 
         return taskType;
+    }
+
+    public static int getTaskNumber(String receivedText) {
+
+        return Integer.parseInt(receivedText.split(" ")[1]);
     }
 
     public static String getTaskAsSavedFormat(Task task) {

@@ -7,6 +7,11 @@ public class Deadline extends Todo{ // subclass of Todo
         super(description); // uses superclass constructor to deal with description
         this.deadline = deadline; // saves deadline
     }
+    public Deadline(String description, String deadline,Boolean isDone){ //new constructor
+        super(description); // uses superclass constructor to deal with description
+        this.deadline = deadline; // saves deadline
+        this.isDone = isDone;
+    }
     public String getDeadline(){ //deadline getter
         return this.deadline;
     }

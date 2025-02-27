@@ -1,6 +1,6 @@
 package BinlaDan.tasks;
 
-import BinlaDan.exception.AlreadyDoneException;
+import BinlaDan.exceptions.AlreadyDoneException;
 
 public abstract class Task {
     protected String description;
@@ -8,6 +8,7 @@ public abstract class Task {
     public Task(String description) {
         this.description = description;
     }
+
 
     public String toString() {
         return this.description;

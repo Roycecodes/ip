@@ -1,7 +1,5 @@
 package BinlaDan.command;
 
-import BinlaDan.ui.BinlaDan;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +8,7 @@ import java.io.FileWriter;
 import java.util.regex.Pattern;
 
 
-public class FileMethods {
+public class Storage {
     final private static String FILE_PATH = "data/localTaskBackups.txt";
 
     static public void initialiseTaskList() {
@@ -36,23 +34,15 @@ public class FileMethods {
         int index;
         switch (arrayOfArguments[0]) {
         case "D":
-            index = ListState.addDeadline("deadline " + arrayOfArguments[2] + " /by " + arrayOfArguments[3]);
-            if (arrayOfArguments[1].equals("true")) {
-                ListState.markAsDone(index + 1);
-            }
+            TaskList.addDeadline(arrayOfArguments[2], arrayOfArguments[3],arrayOfArguments[1].equals("true"));
+
             break;
         case "E":
-            index = ListState.addEvent("event " + arrayOfArguments[2] + " /from " + arrayOfArguments[3] + " /to " + arrayOfArguments[4]);
-            if (arrayOfArguments[1].equals("true")) {
-                ListState.markAsDone(index + 1);
-            }
+            TaskList.addEvent(arrayOfArguments[2], arrayOfArguments[3],arrayOfArguments[4],arrayOfArguments[1].equals("true"));
+
             break;
         case "T":
-            index = ListState.addTodo("todo " + arrayOfArguments[2]);
-//            System.out.println(arrayOfArguments[2]);
-            if (arrayOfArguments[1].equals("true")) {
-                ListState.markAsDone(index + 1);
-            }
+            TaskList.addTodo(arrayOfArguments[2],arrayOfArguments[1].equals("true"));
             break;
 
         }
@@ -105,27 +95,20 @@ public class FileMethods {
     }
 
 
-    public static void writeTaskFile() {
+
+    public static void saveTasksToFile() throws IOException {
 
         try {
             FileWriter file = new FileWriter(FILE_PATH);
             file.flush();
             file.close();
 
-            String taskListString = ListState.generateTaskListString();
+            String taskListString = TaskList.generateTaskListString();
             writeToFile(FILE_PATH, taskListString);
-            System.out.println("File successfully saved!");
-            BinlaDan.printLineDivider();
-            printTaskFile();
-            BinlaDan.printLineDivider();
-            System.out.println("Impressive Brother! Now we won't forget our targets!");
 
         } catch (IOException e) {
             System.out.println("Unable to write to the file: " + e.getMessage());
-            System.out.println("Standby while I look for the file ...");
-            checkAndCreateTaskFile();
-            System.out.println("try again");
-
+            throw new IOException();
         }
 
     }

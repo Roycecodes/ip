@@ -1,6 +1,6 @@
 package BinlaDan.tasks;
 
-import BinlaDan.exception.AlreadyDoneException;
+import BinlaDan.exceptions.AlreadyDoneException;
 
 public class Todo extends Task { // subclass of Task
     protected boolean isDone; // to save done value
@@ -8,6 +8,13 @@ public class Todo extends Task { // subclass of Task
     public Todo(String description) {
         // new constructor because constructors are not inherited
         super(description);
+
+    }
+
+    public Todo(String description, Boolean isDone) {
+        // new constructor because constructors are not inherited
+        super(description);
+        this.isDone = isDone;
 
     }
 
@@ -25,7 +32,7 @@ public class Todo extends Task { // subclass of Task
 
     public String toString() {
         String addOutput = this.isDone ? "[/]" : "[X]"; //give check if done cross is not
-        return "[T] "+ addOutput + " " + super.toString();
+        return "[T] " + addOutput + " " + super.toString();
     }
 
 }

@@ -10,6 +10,12 @@ public class EventTask extends Todo{ // subclass of Todo
         this.startTime = startTime; // saves deadline
         this.endTime = endTime;
     }
+    public EventTask(String description, String startTime, String endTime, Boolean isDone){ //new constructor
+        super(description); // uses superclass constructor to deal with description
+        this.startTime = startTime; // saves deadline
+        this.endTime = endTime;
+        this.isDone = isDone;
+    }
     public String getStartTime(){ //deadline getter
         return this.startTime;
     } // start time getter
