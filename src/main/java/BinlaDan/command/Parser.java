@@ -158,12 +158,12 @@ public class Parser {
         case 'D':
             Deadline deadlineTask = (Deadline) task; // class cast to Deadline to extract Deadline
 
-            returnedText += "|" + deadlineTask.getDeadline();// extract Deadline
+            returnedText += "|" + deadlineTask.getDeadlineAsString();// extract Deadline
             break;
         case 'E':
             EventTask eventTask = (EventTask) task; // class cast to Event to extract startTime
-            returnedText += "|" + eventTask.getStartTime();// extract startTime
-            returnedText += "|" + eventTask.getEndTime();// extract startTime
+            returnedText += "|" + eventTask.getStartTimeAsString();// extract startTime
+            returnedText += "|" + eventTask.getEndTimeAsString();// extract startTime
             break;
         }
         return returnedText;
