@@ -2,6 +2,9 @@ package BinlaDan.tasks;
 
 import BinlaDan.exceptions.AlreadyDoneException;
 
+/**
+ * represents a task
+ */
 public abstract class Task {
     protected String description;
 

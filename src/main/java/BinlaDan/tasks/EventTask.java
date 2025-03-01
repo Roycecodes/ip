@@ -1,5 +1,7 @@
 package BinlaDan.tasks;
-
+/**
+ * represents a task that has a start and end date
+ */
 public class EventTask extends Todo{ // subclass of Todo
     private String startTime; // to save start
     private String endTime;// to save End

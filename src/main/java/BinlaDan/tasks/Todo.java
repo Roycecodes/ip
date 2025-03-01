@@ -2,6 +2,9 @@ package BinlaDan.tasks;
 
 import BinlaDan.exceptions.AlreadyDoneException;
 
+/**
+ * represents a task that has an ability to indicate if done
+ */
 public class Todo extends Task { // subclass of Task
     protected boolean isDone; // to save done value
 

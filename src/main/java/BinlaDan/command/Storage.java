@@ -7,17 +7,23 @@ import java.util.Scanner;
 import java.io.FileWriter;
 import java.util.regex.Pattern;
 
-
+/**
+ * Storage class hold methods necessary for saving Tasks into storage
+ */
 public class Storage {
     final private static String FILE_PATH = "data/localTaskBackups.txt";
 
+    /**
+     * initialises taskList from previous save by adding all tasks from storage file
+     */
     static public void initialiseTaskList() {
         try {
             File file = new File(FILE_PATH); // create a File for the given file path
             Scanner fileString = new Scanner(file); // create a Scanner using the File as the source
             if (fileString.hasNext()) {
                 fileString.nextLine();
-            }//ignore first line
+            }
+            // ignores first line because it is the header of the file
             while (fileString.hasNext()) {
                 addTaskFromSaved(fileString);
             }
@@ -29,25 +35,32 @@ public class Storage {
 
     }
 
+    /**
+     * understands a line from storage file and calls respective methods to add correct task to taskList
+     */
     private static void addTaskFromSaved(Scanner s) {
         String[] arrayOfArguments = s.nextLine().split(Pattern.quote("|"));
         int index;
         switch (arrayOfArguments[0]) {
         case "D":
-            TaskList.addDeadline(arrayOfArguments[2], arrayOfArguments[3],arrayOfArguments[1].equals("true"));
+            TaskList.addDeadline(arrayOfArguments[2], arrayOfArguments[3], arrayOfArguments[1].equals("true"));
 
             break;
         case "E":
-            TaskList.addEvent(arrayOfArguments[2], arrayOfArguments[3],arrayOfArguments[4],arrayOfArguments[1].equals("true"));
+            TaskList.addEvent(arrayOfArguments[2], arrayOfArguments[3], arrayOfArguments[4], arrayOfArguments[1].equals("true"));
 
             break;
         case "T":
-            TaskList.addTodo(arrayOfArguments[2],arrayOfArguments[1].equals("true"));
+            TaskList.addTodo(arrayOfArguments[2], arrayOfArguments[1].equals("true"));
             break;
 
         }
     }
 
+    /**
+     * checks for storage file
+     * if does not exist create one at FILE_PATH
+     */
     public static void checkAndCreateTaskFile() {
 
         try {
@@ -72,6 +85,9 @@ public class Storage {
 
     }
 
+    /**
+     * prints storage file's contents
+     */
     private static void printFileContents(String filePath) throws FileNotFoundException {
         File f = new File(filePath); // create a File for the given file path
         Scanner s = new Scanner(f); // create a Scanner using the File as the source
@@ -79,6 +95,7 @@ public class Storage {
             System.out.println(s.nextLine());
         }
     }
+
 
     public static void printTaskFile() {
         try {
@@ -88,12 +105,12 @@ public class Storage {
         }
     }
 
+
     private static void writeToFile(String filePath, String textToAdd) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         fw.write(textToAdd);
         fw.close(); // need to close to complete
     }
-
 
 
     public static void saveTasksToFile() throws IOException {

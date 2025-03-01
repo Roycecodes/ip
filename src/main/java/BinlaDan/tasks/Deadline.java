@@ -1,5 +1,7 @@
 package BinlaDan.tasks;
-
+/**
+ * represents a task that has a deadline
+ */
 public class Deadline extends Todo{ // subclass of Todo
     private String deadline; // to save date
 
