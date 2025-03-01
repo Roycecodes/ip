@@ -9,6 +9,7 @@ import BinlaDan.tasks.Task;
 import BinlaDan.tasks.Todo;
 import BinlaDan.ui.Ui;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EmptyStackException;
 
 
@@ -22,7 +23,24 @@ public class Command {
     static final public String UNDONE_COMMAND = "undone";
     static final public String DELETE_COMMAND = "delete";
     static final public String SAVE_COMMAND = "save";
+    static final public String FIND_COMMAND = "find";
 
+    public static void executeFind(String receivedText){
+        String[] keywords = Parser.parseKeywords(receivedText);
+
+        try {
+            ArrayList<Task> filteredList = TaskList.searchForTaskWithKeyword(keywords);
+            System.out.println("Found tasks:");
+            Ui.printTaskListView(filteredList);
+            TaskList.selectFilteredList(); //toggle selected list to filtered so that done, delete undone affects produced results
+
+
+
+        } catch (EmptyStackException e) {
+            System.out.println("There seems to be no related targets");
+        }
+
+    }
 
     public static void executeSave() {
 
@@ -93,6 +111,9 @@ public class Command {
 
             try {
                 TaskList.displayList();
+                TaskList.selectTaskList();
+
+
 
             } catch (EmptyStackException | IndexOutOfBoundsException e) {
                 System.out.println("No Targets today!");

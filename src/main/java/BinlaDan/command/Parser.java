@@ -15,6 +15,7 @@ public class Parser {
     static final int LENGTH_OF_BY = 4;
     static final int LENGTH_OF_TO = 4;
     static final int LENGTH_OF_FROM = 6;
+    static final int LENGTH_OF_FIND = 5;
 
     public static void decipherCommand(String receivedText) {//method to determine what kind of task to call
 
@@ -53,6 +54,10 @@ public class Parser {
             break;
         case Command.UNDONE_COMMAND:
             Command.executeMarkAsUndone(receivedText);
+            break;
+        case Command.FIND_COMMAND:
+            Command.executeFind(receivedText);
+            Ui.printLineDivider();
             break;
         default:
             System.out.println("I DO NOT UNDERSTAND " + receivedText);
@@ -175,5 +180,11 @@ public class Parser {
             throw new EmptyStringException();
         }
         return receivedText.substring(LENGTH_OF_TODO).trim();
+    }
+
+
+    public static String[] parseKeywords(String receivedText) {
+        String parsedKeywords = receivedText.substring(LENGTH_OF_FIND).trim();
+        return parsedKeywords.split(" ");
     }
 }
