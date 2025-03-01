@@ -60,6 +60,7 @@ public class Command {
         }
 
     }
+
     public static void executeMarkAsDone(String receivedText) {
         try {
             int taskNumber = Parser.getTaskNumber(receivedText);
@@ -141,7 +142,7 @@ public class Command {
                 System.out.print("Added new Campaign: ");
                 System.out.println(task.getDescription()); // echos what is added to list
                 System.out.print("Campaign duration: ");
-                System.out.println(task.getStartTime() + " to " + task.getEndTime());
+                System.out.println(task.getStartTimeAsString() + " to " + task.getEndTimeAsString());
                 Ui.printUpdateListText();
             } catch (MissingDateException e) {
                 System.out.println("You imbecile your event details are missing! use \"event {task} /from {start time} /to {end time}\"  to specify.");
@@ -160,7 +161,7 @@ public class Command {
                 System.out.print("Added new Mission: ");
                 System.out.println(task.getDescription()); // echos what is added to list
                 System.out.print("Mission deadline: ");
-                System.out.println(task.getDeadline());
+                System.out.println(task.getDeadlineAsString());
                 Ui.printUpdateListText();
             } catch (EmptyStringException e) {
                 System.out.println("What is your Task? Tell me Now! Don't you dare leave it empty again.");
