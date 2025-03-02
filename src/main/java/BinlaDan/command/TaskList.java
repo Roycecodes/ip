@@ -48,7 +48,8 @@ public class TaskList {
 
     private static Boolean checkTaskForKeyword(String[] keywords, Task t, ArrayList<Task> filteredList) {
         for (String keyword : keywords) {
-            if (t.getDescription().contains(keyword)) {
+            keyword = keyword.toLowerCase();
+            if (t.getDescription().toLowerCase().contains(keyword)) {
 
                 return true; // Once we've found one keyword match, no need to check others
             }
@@ -67,11 +68,11 @@ public class TaskList {
     }
 
     private static boolean isDeadlineContainingKey(Task t, String keyword) {
-        return t instanceof Deadline && ((Deadline) t).getDeadline().contains(keyword);
+        return t instanceof Deadline && ((Deadline) t).getDeadlineAsString().toLowerCase().contains(keyword);
     }
 
     private static boolean isEventContainingKey(Task t, String keyword) {
-        return t instanceof EventTask && (((EventTask) t).getStartTime().contains(keyword) || ((EventTask) t).getEndTime().contains(keyword));
+        return t instanceof EventTask && (((EventTask) t).getStartTimeAsString().toLowerCase().contains(keyword) || ((EventTask) t).getEndTimeAsString().toLowerCase().contains(keyword));
     }
 
     public static String generateTaskListString() {

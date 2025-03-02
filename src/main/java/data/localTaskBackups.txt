@@ -1,6 +1,4 @@
 Current saved Targets: 
-T|true|hi
-T|false|sijvsjv
-D|false|skihb vds k|sdh kjb
-E|false|sd vjds|123|24e
-D|false|syvn|0000000
+T|false|2
+T|false|e
+D|false|sd kvjx|Dec 25 2009
