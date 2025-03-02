@@ -7,10 +7,23 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * represents date of a task
+ * holds date as string and as LocalDate type
+ * hold methods necessary to manipulate task Date
+ */
 public class TaskDate {
     public LocalDate dateLocalDate;
     public String dateString;
 
+    /**
+     * creates a new instance of TaskDate
+     * saves string input as dateString
+     * tries to parse String input into LocalDate type
+     * else saves dateLocalDate as null
+     *
+     * @param date is the date that is to be instantiated
+     */
     public TaskDate(String date) {
         this.dateString = date;
         try {
@@ -21,6 +34,11 @@ public class TaskDate {
         }
     }
 
+    /**
+     * sets a new date for taskDate
+     *
+     * @param date is the date that is to be instantiated
+     */
     public void setDate(String date) {
         this.dateString = date;
         try {

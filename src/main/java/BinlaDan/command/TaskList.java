@@ -26,22 +26,30 @@ public class TaskList {
     public static int getListSize() {
         return listSize;
     }
-    public static void selectTaskList(){
 
-            selectedList =taskList;
+    public static void selectTaskList() {
+
+        selectedList = taskList;
 
     }
-    public static void selectFilteredList(){
+
+    public static void selectFilteredList() {
 
         selectedList = filteredList;
 
     }
 
+    /**
+     * checks all tasks in taskList for keywords and populates filteredLists with found tasks
+     *
+     * @return the filtered list after done
+     * @throws EmptyStackException if no tasks are found
+     */
     public static ArrayList<Task> searchForTaskWithKeyword(String... keywords) {
         filteredList.clear();
 
         for (Task t : taskList) {
-            if (checkTaskForKeyword(keywords, t, filteredList)) {
+            if (checkTaskForKeyword(keywords, t)) {
                 filteredList.add(t);
             }
         }
@@ -50,19 +58,24 @@ public class TaskList {
         return filteredList;
     }
 
-    private static Boolean checkTaskForKeyword(String[] keywords, Task t, ArrayList<Task> filteredList) {
+    /**
+     * checks all fields in particular task for keyword
+     *
+     * @return is true if keyword exists
+     */
+    private static Boolean checkTaskForKeyword(String[] keywords, Task t) {
         for (String keyword : keywords) {
             keyword = keyword.toLowerCase();
             if (t.getDescription().toLowerCase().contains(keyword)) {
 
                 return true; // Once we've found one keyword match, no need to check others
             }
-            if(isDeadlineContainingKey(t, keyword)){
+            if (isDeadlineContainingKey(t, keyword)) {
 
                 return true;
 
             }
-            if(isEventContainingKey(t, keyword)) {
+            if (isEventContainingKey(t, keyword)) {
                 return true;
             }
 
@@ -71,10 +84,16 @@ public class TaskList {
         return false;
     }
 
+    /**
+     * returns true if tasks deadline contains keyword
+     */
     private static boolean isDeadlineContainingKey(Task t, String keyword) {
         return t instanceof Deadline && ((Deadline) t).getDeadlineAsString().toLowerCase().contains(keyword);
     }
 
+    /**
+     * returns true if tasks event boundaries contains keyword
+     */
     private static boolean isEventContainingKey(Task t, String keyword) {
         return t instanceof EventTask && (((EventTask) t).getStartTimeAsString().toLowerCase().contains(keyword) || ((EventTask) t).getEndTimeAsString().toLowerCase().contains(keyword));
     }
@@ -86,13 +105,13 @@ public class TaskList {
      */
     public static String generateTaskListString() {
         try {
-            String returnedText = "Current saved Targets: \n";
+            StringBuilder returnedText = new StringBuilder("Current saved Targets: \n");
             for (int i = 0; i < listSize; i++) {
 
-                returnedText += Parser.getTaskAsSavedFormat(taskList.get(i)); //call parser function that formats tasks
-                returnedText += ("\n"); //newline
+                returnedText.append(Parser.getTaskAsSavedFormat(taskList.get(i))); //call parser function that formats tasks
+                returnedText.append("\n"); //newline
             }
-            return returnedText;
+            return returnedText.toString();
         } catch (NullPointerException e) {
             System.out.println("error");
 
@@ -136,8 +155,6 @@ public class TaskList {
         String description = parsedDeadline[0];
         String deadline = parsedDeadline[1];
         return addDeadline(description, deadline, false);
-
-
     }
 
     /**
@@ -196,6 +213,12 @@ public class TaskList {
         Ui.printLineDivider();
 
     }
+
+    /**
+     * displays selected list (either filtered or task)
+     *
+     * @throws EmptyStackException if list is empty
+     */
     static void displaySelectedList() throws EmptyStackException {
         if (listSize == 0) {
             throw new EmptyStackException();
@@ -206,15 +229,15 @@ public class TaskList {
         Ui.printTaskListView(selectedList);
         Ui.printLineDivider();
 
+
+    }
+
     /**
      * marks task as done
      *
      * @param index is index of the target task in taskList
      * @throws AlreadyDoneException if it has already been marked
      */
-    }
-
-
     static void markAsDone(int index) throws AlreadyDoneException {
         Task task = selectedList.get(index - INDEX_OFFSET);
         task.setDone(true); // call setDone from Task class
