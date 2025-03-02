@@ -20,6 +20,7 @@ public class Parser {
     static final int LENGTH_OF_BY = 4;
     static final int LENGTH_OF_TO = 4;
     static final int LENGTH_OF_FROM = 6;
+    static final int LENGTH_OF_FIND = 5;
 
     /**
      * deciphers users input for commands and calls methods to execute
@@ -64,6 +65,10 @@ public class Parser {
             break;
         case Command.UNDONE_COMMAND:
             Command.executeMarkAsUndone(receivedText);
+            break;
+        case Command.FIND_COMMAND:
+            Command.executeFind(receivedText);
+            Ui.printLineDivider();
             break;
         default:
             System.out.println("I DO NOT UNDERSTAND " + receivedText);
@@ -215,16 +220,21 @@ public class Parser {
         case 'D':
             Deadline deadlineTask = (Deadline) task; // class cast to Deadline to extract Deadline
 
-            returnedText += "|" + deadlineTask.getDeadline();// extract Deadline
+            returnedText += "|" + deadlineTask.getDeadlineAsString();// extract Deadline
             break;
         case 'E':
             EventTask eventTask = (EventTask) task; // class cast to Event to extract startTime
-            returnedText += "|" + eventTask.getStartTime();// extract startTime
-            returnedText += "|" + eventTask.getEndTime();// extract startTime
+            returnedText += "|" + eventTask.getStartTimeAsString();// extract startTime
+            returnedText += "|" + eventTask.getEndTimeAsString();// extract startTime
             break;
         }
         return returnedText;
     }
 
+
+    public static String[] parseKeywords(String receivedText) {
+        String parsedKeywords = receivedText.substring(LENGTH_OF_FIND).trim();
+        return parsedKeywords.split(" ");
+    }
 
 }

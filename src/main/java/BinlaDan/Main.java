@@ -1,6 +1,7 @@
 package BinlaDan;
 
 import BinlaDan.command.Storage;
+import BinlaDan.command.TaskList;
 import BinlaDan.ui.Ui;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class Main {
 
     private void start(String[] launchArgs) {
         Storage.initialiseTaskList();
+        TaskList.selectTaskList();
         Ui.printHelloMessage();
 
     }

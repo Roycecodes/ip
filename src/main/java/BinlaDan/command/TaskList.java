@@ -19,11 +19,64 @@ import java.util.EmptyStackException;
 public class TaskList {
     static final protected int INDEX_OFFSET = 1;
     static final private ArrayList<Task> taskList = new ArrayList<>();
+    static final private ArrayList<Task> filteredList = new ArrayList<>();
+    static private ArrayList<Task> selectedList = new ArrayList<>();
     static private int listSize = 0;
-
 
     public static int getListSize() {
         return listSize;
+    }
+    public static void selectTaskList(){
+
+            selectedList =taskList;
+
+    }
+    public static void selectFilteredList(){
+
+        selectedList = filteredList;
+
+    }
+
+    public static ArrayList<Task> searchForTaskWithKeyword(String... keywords) {
+        filteredList.clear();
+
+        for (Task t : taskList) {
+            if (checkTaskForKeyword(keywords, t, filteredList)) {
+                filteredList.add(t);
+            }
+        }
+
+        if (filteredList.isEmpty()) throw new EmptyStackException();
+        return filteredList;
+    }
+
+    private static Boolean checkTaskForKeyword(String[] keywords, Task t, ArrayList<Task> filteredList) {
+        for (String keyword : keywords) {
+            keyword = keyword.toLowerCase();
+            if (t.getDescription().toLowerCase().contains(keyword)) {
+
+                return true; // Once we've found one keyword match, no need to check others
+            }
+            if(isDeadlineContainingKey(t, keyword)){
+
+                return true;
+
+            }
+            if(isEventContainingKey(t, keyword)) {
+                return true;
+            }
+
+
+        }
+        return false;
+    }
+
+    private static boolean isDeadlineContainingKey(Task t, String keyword) {
+        return t instanceof Deadline && ((Deadline) t).getDeadlineAsString().toLowerCase().contains(keyword);
+    }
+
+    private static boolean isEventContainingKey(Task t, String keyword) {
+        return t instanceof EventTask && (((EventTask) t).getStartTimeAsString().toLowerCase().contains(keyword) || ((EventTask) t).getEndTimeAsString().toLowerCase().contains(keyword));
     }
 
     /**
@@ -136,11 +189,22 @@ public class TaskList {
         if (listSize == 0) {
             throw new EmptyStackException();
         }
+
         Ui.printLineDivider();
         System.out.println("Current targets: ");
         Ui.printTaskListView(taskList);
         Ui.printLineDivider();
+
     }
+    static void displaySelectedList() throws EmptyStackException {
+        if (listSize == 0) {
+            throw new EmptyStackException();
+        }
+
+        Ui.printLineDivider();
+        System.out.println("selected targets: ");
+        Ui.printTaskListView(selectedList);
+        Ui.printLineDivider();
 
     /**
      * marks task as done
@@ -148,8 +212,11 @@ public class TaskList {
      * @param index is index of the target task in taskList
      * @throws AlreadyDoneException if it has already been marked
      */
+    }
+
+
     static void markAsDone(int index) throws AlreadyDoneException {
-        Task task = taskList.get(index - INDEX_OFFSET);
+        Task task = selectedList.get(index - INDEX_OFFSET);
         task.setDone(true); // call setDone from Task class
     }
 
@@ -161,7 +228,7 @@ public class TaskList {
      */
     static void markAsUndone(int index) throws AlreadyDoneException {
 
-        Task task = taskList.get(index - 1);
+        Task task = selectedList.get(index - 1);
         task.setDone(false); // call setDone from Task class
 
 
@@ -174,8 +241,9 @@ public class TaskList {
      */
     static Task deleteTask(int index) {
 
-        Task task = taskList.get(index - INDEX_OFFSET); //save task for printing later
+        Task task = selectedList.get(index - INDEX_OFFSET); //save task for printing later
         taskList.remove(task); // try to remove from list
+        selectedList.remove(task);
         listSize -= 1;
         return task;
 

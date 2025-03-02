@@ -1,37 +1,40 @@
 package BinlaDan.tasks;
+
+import BinlaDan.command.TaskDate;
+
 /**
  * represents a task that has a start and end date
  */
 public class EventTask extends Todo{ // subclass of Todo
-    private String startTime; // to save start
-    private String endTime;// to save End
+    private TaskDate startTime; // to save start
+    private TaskDate endTime;// to save End
 
 
     public EventTask(String description, String startTime, String endTime){ //new constructor
         super(description); // uses superclass constructor to deal with description
-        this.startTime = startTime; // saves deadline
-        this.endTime = endTime;
+        this.startTime = new TaskDate(startTime); // saves deadline
+        this.endTime = new TaskDate(endTime);
     }
     public EventTask(String description, String startTime, String endTime, Boolean isDone){ //new constructor
         super(description); // uses superclass constructor to deal with description
-        this.startTime = startTime; // saves deadline
-        this.endTime = endTime;
+        this.startTime = new TaskDate(startTime); // saves deadline
+        this.endTime = new TaskDate(endTime);
         this.isDone = isDone;
     }
-    public String getStartTime(){ //deadline getter
-        return this.startTime;
+    public String getStartTimeAsString(){ //deadline getter
+        return this.startTime.toString();
     } // start time getter
-    public String getEndTime(){ //deadline getter
-        return this.endTime;
+    public String getEndTimeAsString(){ //deadline getter
+        return this.endTime.toString();
     }   // end time getter
     public void setStartTime(String startTime){ //deadline setter
-        this.startTime = startTime;
+        this.startTime.setDate(startTime);
     } //start time setter
     public void setEndTime(String endTime){ //deadline setter
-        this.endTime = endTime;
+        this.endTime.setDate(endTime);
     } //end time setter
     public String toString() {
-        String addOutput = "(From: " + this.startTime + " to " + this.endTime+")";
+        String addOutput = "(From: " + getStartTimeAsString() + " to " + getEndTimeAsString()+")";
 
         return "[E] "+ super.toString().substring(4) + " " + addOutput;
     }
