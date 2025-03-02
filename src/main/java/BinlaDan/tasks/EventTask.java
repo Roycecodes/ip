@@ -2,6 +2,9 @@ package BinlaDan.tasks;
 
 import BinlaDan.command.TaskDate;
 
+/**
+ * represents a task that has a start and end date
+ */
 public class EventTask extends Todo{ // subclass of Todo
     private TaskDate startTime; // to save start
     private TaskDate endTime;// to save End

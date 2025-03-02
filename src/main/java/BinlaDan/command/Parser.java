@@ -8,6 +8,11 @@ import BinlaDan.tasks.Task;
 import BinlaDan.tasks.Todo;
 import BinlaDan.ui.Ui;
 
+
+/**
+ * Holds methods that manipulate input received from user into useful data
+ * that can be understood by other methods
+ */
 public class Parser {
     static final int LENGTH_OF_DEADLINE = 9;
     static final int LENGTH_OF_TODO = 5;
@@ -17,6 +22,12 @@ public class Parser {
     static final int LENGTH_OF_FROM = 6;
     static final int LENGTH_OF_FIND = 5;
 
+    /**
+     * deciphers users input for commands and calls methods to execute
+     * if unable to decipher message display instructions that helps user give commands
+     *
+     * @param receivedText entire command input received
+     */
     public static void decipherCommand(String receivedText) {//method to determine what kind of task to call
 
         String command = receivedText.strip().split(" ")[0];
@@ -68,6 +79,14 @@ public class Parser {
 
     }
 
+    /**
+     * parses input text for creating deadline task to extract information
+     *
+     * @param receivedText entire command input received
+     * @return array containing task description and deadline
+     * @throws EmptyStringException when description received is empty
+     * @throws MissingDateException when deadline field is empty
+     */
     static public String[] parseDeadline(String receivedText) throws EmptyStringException, MissingDateException {
         String[] returnedArray = new String[2];
         receivedText = receivedText.trim();
@@ -99,6 +118,14 @@ public class Parser {
 
     }
 
+    /**
+     * parses input text for creating event task to extract information
+     *
+     * @param receivedText entire command input received
+     * @return array containing task description, startTime and endTime
+     * @throws EmptyStringException when description received is empty
+     * @throws MissingDateException when startTime or endTime field is empty
+     */
     static public String[] parseEvent(String receivedText) throws MissingDateException, EmptyStringException {
 
         receivedText = receivedText.trim();
@@ -135,6 +162,26 @@ public class Parser {
 
     }
 
+    /**
+     * parses input text for creating todo task to extract information
+     *
+     * @param receivedText entire command input received
+     * @return String containing task description
+     * @throws EmptyStringException when description received is empty
+     */
+    static public String parseTodo(String receivedText) throws EmptyStringException {
+        String parsedTodo = receivedText.substring(LENGTH_OF_TODO).trim(); // cut out todo command
+        if (parsedTodo.isEmpty()) {
+            throw new EmptyStringException();
+        }
+        return receivedText.substring(LENGTH_OF_TODO).trim();
+    }
+
+    /**
+     * checks Task for type of task todo, deadline or event
+     *
+     * @return char that signifies task Type
+     */
     static char checkTaskType(Task task) {
         char taskType = 'T';
         if (task instanceof EventTask) {
@@ -147,12 +194,22 @@ public class Parser {
 
         return taskType;
     }
-
+    /**
+     * extracts task number for commands that consist of 2 words. "{command} {task number}"
+     * e.g. delete 2, done 1, undone 4
+     *
+     * @param receivedText entire command input received
+     * @return int of task number based on taskList
+     */
     public static int getTaskNumber(String receivedText) {
 
         return Integer.parseInt(receivedText.split(" ")[1]);
     }
-
+    /**
+     * converts task into an efficient String format for saving
+     *
+     * @return String version of task
+     */
     public static String getTaskAsSavedFormat(Task task) {
         String returnedText = "";
         char taskType = checkTaskType(task);
@@ -174,17 +231,10 @@ public class Parser {
         return returnedText;
     }
 
-    static public String parseTodo(String receivedText) throws EmptyStringException {
-        String parsedTodo = receivedText.substring(LENGTH_OF_TODO).trim(); // cut out todo command
-        if (parsedTodo.isEmpty()) {
-            throw new EmptyStringException();
-        }
-        return receivedText.substring(LENGTH_OF_TODO).trim();
-    }
-
 
     public static String[] parseKeywords(String receivedText) {
         String parsedKeywords = receivedText.substring(LENGTH_OF_FIND).trim();
         return parsedKeywords.split(" ");
     }
+
 }

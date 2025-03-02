@@ -12,6 +12,10 @@ import BinlaDan.ui.Ui;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 
+/**
+ * Represents the array of tasks to be stored by chatbot
+ * holds CRUD methods that manipulate the task list
+ */
 public class TaskList {
     static final protected int INDEX_OFFSET = 1;
     static final private ArrayList<Task> taskList = new ArrayList<>();
@@ -22,22 +26,30 @@ public class TaskList {
     public static int getListSize() {
         return listSize;
     }
-    public static void selectTaskList(){
 
-            selectedList =taskList;
+    public static void selectTaskList() {
+
+        selectedList = taskList;
 
     }
-    public static void selectFilteredList(){
+
+    public static void selectFilteredList() {
 
         selectedList = filteredList;
 
     }
 
+    /**
+     * checks all tasks in taskList for keywords and populates filteredLists with found tasks
+     *
+     * @return the filtered list after done
+     * @throws EmptyStackException if no tasks are found
+     */
     public static ArrayList<Task> searchForTaskWithKeyword(String... keywords) {
         filteredList.clear();
 
         for (Task t : taskList) {
-            if (checkTaskForKeyword(keywords, t, filteredList)) {
+            if (checkTaskForKeyword(keywords, t)) {
                 filteredList.add(t);
             }
         }
@@ -46,19 +58,24 @@ public class TaskList {
         return filteredList;
     }
 
-    private static Boolean checkTaskForKeyword(String[] keywords, Task t, ArrayList<Task> filteredList) {
+    /**
+     * checks all fields in particular task for keyword
+     *
+     * @return is true if keyword exists
+     */
+    private static Boolean checkTaskForKeyword(String[] keywords, Task t) {
         for (String keyword : keywords) {
             keyword = keyword.toLowerCase();
             if (t.getDescription().toLowerCase().contains(keyword)) {
 
                 return true; // Once we've found one keyword match, no need to check others
             }
-            if(isDeadlineContainingKey(t, keyword)){
+            if (isDeadlineContainingKey(t, keyword)) {
 
                 return true;
 
             }
-            if(isEventContainingKey(t, keyword)) {
+            if (isEventContainingKey(t, keyword)) {
                 return true;
             }
 
@@ -67,23 +84,34 @@ public class TaskList {
         return false;
     }
 
+    /**
+     * returns true if tasks deadline contains keyword
+     */
     private static boolean isDeadlineContainingKey(Task t, String keyword) {
         return t instanceof Deadline && ((Deadline) t).getDeadlineAsString().toLowerCase().contains(keyword);
     }
 
+    /**
+     * returns true if tasks event boundaries contains keyword
+     */
     private static boolean isEventContainingKey(Task t, String keyword) {
         return t instanceof EventTask && (((EventTask) t).getStartTimeAsString().toLowerCase().contains(keyword) || ((EventTask) t).getEndTimeAsString().toLowerCase().contains(keyword));
     }
 
+    /**
+     * generates whole String of tasks after they have been converted into saved format
+     *
+     * @return String to be written into storage file
+     */
     public static String generateTaskListString() {
         try {
-            String returnedText = "Current saved Targets: \n";
+            StringBuilder returnedText = new StringBuilder("Current saved Targets: \n");
             for (int i = 0; i < listSize; i++) {
 
-                returnedText += Parser.getTaskAsSavedFormat(taskList.get(i)); //call parser function that formats tasks
-                returnedText += ("\n"); //newline
+                returnedText.append(Parser.getTaskAsSavedFormat(taskList.get(i))); //call parser function that formats tasks
+                returnedText.append("\n"); //newline
             }
-            return returnedText;
+            return returnedText.toString();
         } catch (NullPointerException e) {
             System.out.println("error");
 
@@ -91,7 +119,11 @@ public class TaskList {
         return "";
     }
 
-
+    /**
+     * accepts user input to call addTodo inorder to create a todo task
+     *
+     * @return the task that is created
+     */
     static Todo addTodoFromString(String receivedText) throws EmptyStringException {
         String description = Parser.parseTodo(receivedText);
 
@@ -100,6 +132,11 @@ public class TaskList {
 
     }
 
+    /**
+     * creates and adds todo Task to taskList
+     *
+     * @return the task that is created
+     */
     public static Todo addTodo(String description, Boolean isDone) {
         Todo todoTask = new Todo(description, isDone); //adds description as normal task
         taskList.add(todoTask); // add new todotask to list array
@@ -107,16 +144,24 @@ public class TaskList {
         return todoTask;
     }
 
+    /**
+     * accepts user input as string to call addDeadline inorder to create a deadline task
+     *
+     * @return the task that is created
+     */
     public static Deadline addDeadlineFromString(String receivedText) throws EmptyStringException, MissingDateException {
 
         String[] parsedDeadline = Parser.parseDeadline(receivedText);
         String description = parsedDeadline[0];
         String deadline = parsedDeadline[1];
         return addDeadline(description, deadline, false);
-
-
     }
 
+    /**
+     * creates and adds deadline Task to taskList
+     *
+     * @return the task that is created
+     */
     public static Deadline addDeadline(String description, String deadline, Boolean isDone) {
         Deadline deadlineTask = new Deadline(description, deadline, isDone); //adds description and deadline as a deadline task
         taskList.add(deadlineTask); //add deadline task to array list
@@ -124,6 +169,11 @@ public class TaskList {
         return deadlineTask;
     }
 
+    /**
+     * accepts user input as string to call addEvent inorder to create a event task
+     *
+     * @return the task that is created
+     */
     static EventTask addEventFromString(String receivedText) throws EmptyStringException, MissingDateException {
 
         String[] parsedEvent = Parser.parseEvent(receivedText);
@@ -135,6 +185,11 @@ public class TaskList {
 
     }
 
+    /**
+     * creates and adds event Task to taskList
+     *
+     * @return the task that is created
+     */
     public static EventTask addEvent(String description, String startTime, String endTime, Boolean isDone) {
         EventTask eventTask = new EventTask(description, startTime, endTime, isDone); //adds description as normal task
         taskList.add(eventTask); // add event task to array list
@@ -142,6 +197,11 @@ public class TaskList {
         return eventTask;
     }
 
+    /**
+     * displays list
+     *
+     * @throws EmptyStackException if list is empty
+     */
     static void displayList() throws EmptyStackException {
         if (listSize == 0) {
             throw new EmptyStackException();
@@ -153,6 +213,12 @@ public class TaskList {
         Ui.printLineDivider();
 
     }
+
+    /**
+     * displays selected list (either filtered or task)
+     *
+     * @throws EmptyStackException if list is empty
+     */
     static void displaySelectedList() throws EmptyStackException {
         if (listSize == 0) {
             throw new EmptyStackException();
@@ -163,14 +229,26 @@ public class TaskList {
         Ui.printTaskListView(selectedList);
         Ui.printLineDivider();
 
+
     }
 
-
+    /**
+     * marks task as done
+     *
+     * @param index is index of the target task in taskList
+     * @throws AlreadyDoneException if it has already been marked
+     */
     static void markAsDone(int index) throws AlreadyDoneException {
         Task task = selectedList.get(index - INDEX_OFFSET);
         task.setDone(true); // call setDone from Task class
     }
 
+    /**
+     * marks task as undone
+     *
+     * @param index is index of the target task in taskList
+     * @throws AlreadyDoneException if it has already been marked
+     */
     static void markAsUndone(int index) throws AlreadyDoneException {
 
         Task task = selectedList.get(index - 1);
@@ -179,6 +257,11 @@ public class TaskList {
 
     }
 
+    /**
+     * deletes task in taskList
+     *
+     * @param index is index of the target task in taskList
+     */
     static Task deleteTask(int index) {
 
         Task task = selectedList.get(index - INDEX_OFFSET); //save task for printing later
