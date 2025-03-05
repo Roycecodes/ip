@@ -257,6 +257,7 @@ public class TaskList {
 
     }
 
+
     /**
      * deletes task in taskList
      *
@@ -272,5 +273,16 @@ public class TaskList {
 
 
     }
+
+    static public ArrayList<Task> deleteAllTaskFromList() {
+
+        ArrayList<Task> returnedList = new ArrayList<>(selectedList);
+        taskList.removeAll(selectedList);
+        listSize -= selectedList.size();
+        selectedList.clear();
+        return returnedList;
+
+    }
+
 
 }

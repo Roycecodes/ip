@@ -95,7 +95,13 @@ public class Command {
             Ui.printLineDivider();
             System.out.println("You Idiot! This has mission has already been completed! What do you mean you just completed it?");
             Ui.printLineDivider();
+
+        } catch (NumberFormatException e) {
+
+            System.out.println("give me the index of the task");
+
         }
+
     }
 
     /**
@@ -119,6 +125,10 @@ public class Command {
             Ui.printLineDivider();
             System.out.println("You must have smoked too much Shisha! This has mission has not been completed!");
             Ui.printLineDivider();
+        } catch (NumberFormatException e) {
+
+            System.out.println("give me the index of the task");
+
         }
     }
 
@@ -136,8 +146,21 @@ public class Command {
             System.out.println(task);
 
         } catch (IndexOutOfBoundsException e) {
+
+
             System.out.println("Are you stupid? This Task doesn't exist!");
+        } catch (NumberFormatException e) {
+            if (receivedText.split(" ")[1].equals("all")) {
+                executeDeleteAll();
+            } else {
+                System.out.println("give me the index of the task or \"all\" to delete all");
+            }
         }
+    }
+
+    private static void executeDeleteAll() {
+
+        TaskList.deleteAllTaskFromList();
     }
 
     /**
@@ -225,3 +248,5 @@ public class Command {
 
     }
 }
+
+

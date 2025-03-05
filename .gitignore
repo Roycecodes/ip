@@ -15,6 +15,7 @@ bin/
 *SI_TA_LIN*
 *.class
 classOut*
+data/
 compileRun.bat
 sources.txt
 #ignore vim backupfiles
