@@ -48,9 +48,45 @@ public class TaskList {
     public static ArrayList<Task> searchForTaskWithKeyword(String... keywords) {
         filteredList.clear();
 
-        for (Task t : taskList) {
-            if (checkTaskForKeyword(keywords, t)) {
-                filteredList.add(t);
+        // If only one keyword and it matches a task type
+        if (keywords.length == 1) {
+            String keyword = keywords[0].toLowerCase();
+            switch (keyword) {
+            case "todo":
+                for (Task t : taskList) {
+                    if (t instanceof Todo) {
+                        filteredList.add(t);
+                    }
+                }
+                break;
+            case "deadline":
+                for (Task t : taskList) {
+                    if (t instanceof Deadline) {
+                        filteredList.add(t);
+                    }
+                }
+                break;
+            case "event":
+                for (Task t : taskList) {
+                    if (t instanceof EventTask) {
+                        filteredList.add(t);
+                    }
+                }
+                break;
+            default:
+                // If not a task type, proceed with original keyword search
+                for (Task t : taskList) {
+                    if (checkTaskForKeyword(keywords, t)) {
+                        filteredList.add(t);
+                    }
+                }
+            }
+        } else {
+            // Original keyword search for multiple keywords
+            for (Task t : taskList) {
+                if (checkTaskForKeyword(keywords, t)) {
+                    filteredList.add(t);
+                }
             }
         }
 
@@ -104,6 +140,7 @@ public class TaskList {
      * @return String to be written into storage file
      */
     public static String generateTaskListString() {
+
         try {
             StringBuilder returnedText = new StringBuilder("Current saved Targets: \n");
             for (int i = 0; i < listSize; i++) {
@@ -277,8 +314,9 @@ public class TaskList {
     static public ArrayList<Task> deleteAllTaskFromList() {
 
         ArrayList<Task> returnedList = new ArrayList<>(selectedList);
-        taskList.removeAll(selectedList);
         listSize -= selectedList.size();
+        taskList.removeAll(selectedList);
+
         selectedList.clear();
         return returnedList;
 

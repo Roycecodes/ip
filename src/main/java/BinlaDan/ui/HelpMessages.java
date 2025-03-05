@@ -92,9 +92,9 @@ public class HelpMessages {
         System.out.println(" ");
         System.out.println("This command searches the list for tasks containing keywords of your search");
         System.out.println(" ");
-        System.out.println("find {keywords}");
+        System.out.println("find {keywords/task type}");
         System.out.println(" ");
-        System.out.println("e.g. find homework, find Dec");
+        System.out.println("e.g. find homework, find Dec, find todo, find event");
         System.out.println(" ");
         System.out.println("This command can be used before done and undone to quickly search and mark tasks");
         System.out.println("It can also be used before using delete command");

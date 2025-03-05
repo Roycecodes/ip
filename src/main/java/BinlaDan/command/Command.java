@@ -222,7 +222,10 @@ public class Command {
 
     private static void executeDeleteAll() {
 
-        TaskList.deleteAllTaskFromList();
+        ArrayList<Task> list = TaskList.deleteAllTaskFromList();
+        System.out.println("deleted tasks:");
+        Ui.printTaskListView(list);
+
     }
 
     /**
