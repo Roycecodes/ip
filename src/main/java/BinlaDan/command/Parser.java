@@ -22,6 +22,7 @@ public class Parser {
     static final int LENGTH_OF_FROM = 6;
     static final int LENGTH_OF_FIND = 5;
 
+
     /**
      * deciphers users input for commands and calls methods to execute
      * if unable to decipher message display instructions that helps user give commands
@@ -70,9 +71,12 @@ public class Parser {
             Command.executeFind(receivedText);
             Ui.printLineDivider();
             break;
+        case Command.HELP_COMMAND:
+            Command.executeHelp(receivedText);
+            break;
         default:
             System.out.println("I DO NOT UNDERSTAND " + receivedText);
-            System.out.println("use commands list,done/undone,todo,event,deadline,save,delete");
+            System.out.println("type \"help\" to see available commands");
 
         }
 

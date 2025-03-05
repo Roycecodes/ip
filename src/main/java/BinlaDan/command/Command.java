@@ -7,6 +7,7 @@ import BinlaDan.tasks.Deadline;
 import BinlaDan.tasks.EventTask;
 import BinlaDan.tasks.Task;
 import BinlaDan.tasks.Todo;
+import BinlaDan.ui.HelpMessages;
 import BinlaDan.ui.Ui;
 
 import java.io.IOException;
@@ -26,6 +27,67 @@ public class Command {
     static final public String DELETE_COMMAND = "delete";
     static final public String SAVE_COMMAND = "save";
     static final public String FIND_COMMAND = "find";
+    static final public String HELP_COMMAND = "help";
+
+    public static void executeHelp(String receivedText) {
+        String command;
+        try {
+            command = receivedText.strip().split(" ")[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            command = "none";
+        }
+        switch (command) {
+        case Command.ADD_TODO_COMMAND:
+            HelpMessages.printTodoHelp();
+            break;
+
+        case Command.ADD_DEADLINE_COMMAND:
+            HelpMessages.printDeadlineHelp();
+            break;
+
+        case Command.ADD_EVENT_COMMAND:
+            HelpMessages.printEventHelp();
+            break;
+
+        case Command.LIST_COMMAND:
+            HelpMessages.printListHelp();
+            break;
+
+        case Command.SAVE_COMMAND:
+            HelpMessages.printSaveHelp();
+            break;
+        case Command.DELETE_COMMAND:
+            HelpMessages.printDeleteHelp();
+            break;
+
+        case Command.DONE_COMMAND:
+            HelpMessages.printDoneHelp();
+            break;
+        case Command.UNDONE_COMMAND:
+            HelpMessages.printUndoneHelp();
+            break;
+        case Command.FIND_COMMAND:
+            HelpMessages.printFindHelp();
+            break;
+        case Command.HELP_COMMAND:
+            HelpMessages.printDonkeyHelp();
+            break;
+        case "all":
+            HelpMessages.printTodoHelp();
+            HelpMessages.printDeadlineHelp();
+            HelpMessages.printEventHelp();
+            HelpMessages.printListHelp();
+            HelpMessages.printSaveHelp();
+            HelpMessages.printDeleteHelp();
+            HelpMessages.printDoneHelp();
+            HelpMessages.printUndoneHelp();
+            HelpMessages.printFindHelp();
+            break;
+        default:
+            HelpMessages.printCommandList();
+
+        }
+    }
 
     /**
      * searches for tasks containing keyword in any fields
