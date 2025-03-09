@@ -24,10 +24,6 @@ public abstract class Task {
     public abstract void setDone(boolean done) throws AlreadyDoneException;
 
     public abstract boolean getIsDone();
-//    public void setStartTime(String startTime){}
-//    public void setEndTime(String endTime){}
-//    public void setDeadline(String deadline){}
-
 
 }
 

@@ -27,16 +27,16 @@ public class Main {
         Ui.printHelloMessage();
 
     }
+
     private void exit() {
-        try{
-        Storage.saveTasksToFile();}
-        catch (IOException e){
+        try {
+            Storage.saveTasksToFile();
+        } catch (IOException e) {
             System.out.println("error saving occurred");
-            }
+        }
         Ui.printByeText();
         System.exit(0);
     }
-
 
 
 }

@@ -198,6 +198,7 @@ public class Parser {
 
         return taskType;
     }
+
     /**
      * extracts task number for commands that consist of 2 words. "{command} {task number}"
      * e.g. delete 2, done 1, undone 4
@@ -209,6 +210,7 @@ public class Parser {
 
         return Integer.parseInt(receivedText.split(" ")[1]);
     }
+
     /**
      * converts task into an efficient String format for saving
      *

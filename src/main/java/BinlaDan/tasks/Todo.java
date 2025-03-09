@@ -18,7 +18,6 @@ public class Todo extends Task { // subclass of Task
         // new constructor because constructors are not inherited
         super(description);
         this.isDone = isDone;
-
     }
 
     @Override
